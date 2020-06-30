@@ -1,14 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import auth from "../services/authService";
 
 const Navbar = () => {
+  const user = auth.getCurrentUser();
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <NavLink className="navbar-brand" to="/">
         Navbar
-      </a>
+      </NavLink>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarNav"
@@ -16,28 +18,35 @@ const Navbar = () => {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav mr-auto">
           <NavLink className="nav-link" to={"/"}>
             Home
           </NavLink>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Features
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Pricing
-            </a>
-          </li>
         </ul>
-        <ul className="navbar-nav">
-          <NavLink className="ml-auto" to="/login">
-            Sign In
-          </NavLink>
+        <ul className="navbar-nav ml-auto">
+          {!user && (
+            <React.Fragment>
+              <NavLink className="nav-link ml-auto" to="/login">
+                Sign In
+              </NavLink>
+              <NavLink className="nav-link ml-auto" to="/sign-up">
+                Sign Up
+              </NavLink>
+            </React.Fragment>
+          )}
+          {user && (
+            <React.Fragment>
+              <NavLink className="nav-link ml-auto" to="/my-account">
+                My Account
+              </NavLink>
+              <NavLink className="nav-link ml-auto" to="/logout">
+                Sign Out
+              </NavLink>
+            </React.Fragment>
+          )}
         </ul>
       </div>
     </nav>
