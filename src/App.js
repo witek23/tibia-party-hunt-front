@@ -8,7 +8,9 @@ import Login from "./components/login";
 import SignUp from "./components/signUp";
 import Home from "./components/home";
 import MyAccount from "./components/myAccount";
+import AddCharacter from "./components/addCharacter";
 import Logout from "./components/logout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -16,7 +18,11 @@ function App() {
       <ToastContainer />
       <Navbar />
       <Switch>
-        <Route path="/my-account" component={MyAccount} />
+        <ProtectedRoute
+          path="/my-account/add-character"
+          component={AddCharacter}
+        />
+        <ProtectedRoute path="/my-account" component={MyAccount} />
         <Route path="/sign-up" component={SignUp} />
         <Route path="/logout" component={Logout} />
         <Route path="/login" component={Login} />

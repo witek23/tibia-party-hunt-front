@@ -10,3 +10,7 @@ export function register(user) {
     name: user.name,
   });
 }
+
+export function getUser(id) {
+  return http.get(apiUrl + "/" + id);
+}

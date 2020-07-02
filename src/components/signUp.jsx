@@ -45,7 +45,6 @@ const SignUp = () => {
 
     try {
       const res = await userService.register(values);
-      console.log(res.headers);
       authService.loginWithJwt(res.headers["auth-token"]);
       window.location = "/";
     } catch (ex) {
