@@ -7,6 +7,16 @@ const tableColumns = [
     label: "Character",
     path: "name",
     width: "44%",
+    content: (party) => (
+      <Link
+        to={{
+          pathname: "/my-account/party/" + party.name.replace(" ", "_"),
+          state: party,
+        }}
+      >
+        {party.name}
+      </Link>
+    ),
   },
   {
     label: "World",

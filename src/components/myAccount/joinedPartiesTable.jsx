@@ -1,6 +1,5 @@
 import React from "react";
 import Table from "../common/table";
-import { Link } from "react-router-dom";
 
 const tableColumns = [
   {
@@ -18,8 +17,8 @@ const tableColumns = [
 const JoinePartiesTable = ({ parties, characters, user }) => {
   const joinedParties = [];
   characters.forEach((c) => {
-    parties.filter((p) => {
-      if (p.members.includes(c._id) && p.ownderId !== user._id) {
+    parties.forEach((p) => {
+      if (p.members.includes(c._id) && p.ownerId !== user._id) {
         p.character = c.name;
         joinedParties.push(p);
       }
@@ -35,11 +34,8 @@ const JoinePartiesTable = ({ parties, characters, user }) => {
         )}
         {joinedParties.length === 0 && (
           <div className="alert alert-warning">
-            <strong>Holy guacamole!</strong> You don't own ant party yet. Click{" "}
-            <Link to="/my-account/create-party" className="alert-link">
-              here
-            </Link>{" "}
-            to create party
+            <strong>Holy guacamole!</strong> You didn't join any party yet. It
+            seems that nobody likes you :(.
           </div>
         )}
       </div>

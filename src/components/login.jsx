@@ -56,7 +56,7 @@ const Login = () => {
     }
   };
 
-  if (auth.getCurrentUser()) window.location = "/";
+  if (auth.getCurrentUser()) window.location = "/my-account";
 
   return (
     <div className="container my-5">

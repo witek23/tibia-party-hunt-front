@@ -7,6 +7,21 @@ const tableColumns = [
     label: "Character",
     path: "name",
     width: "44%",
+    content: (character) => (
+      <Link
+        to={{
+          pathname: `/my-account/characters/${character.name.replace(
+            " ",
+            "_"
+          )}`,
+          state: {
+            character: character,
+          },
+        }}
+      >
+        {character.name}
+      </Link>
+    ),
   },
   {
     label: "World",

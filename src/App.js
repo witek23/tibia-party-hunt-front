@@ -11,6 +11,9 @@ import MyAccount from "./components/myAccount";
 import AddCharacter from "./components/addCharacter";
 import Logout from "./components/logout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Character from "./components/character";
+import CreateParty from "./components/createParty";
+import Party from "./components/party";
 
 function App() {
   return (
@@ -18,6 +21,15 @@ function App() {
       <ToastContainer />
       <Navbar />
       <Switch>
+        <ProtectedRoute path="/my-account/party/:name" component={Party} />
+        <ProtectedRoute
+          path="/my-account/create-party"
+          component={CreateParty}
+        />
+        <ProtectedRoute
+          path="/my-account/characters/:name"
+          component={Character}
+        />
         <ProtectedRoute
           path="/my-account/add-character"
           component={AddCharacter}

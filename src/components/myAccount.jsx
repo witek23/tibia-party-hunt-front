@@ -5,18 +5,17 @@ import * as characterService from "../services/characterService";
 import * as partiesService from "../services/partyService";
 import MyCharactersTable from "./myAccount/myCharactersTable";
 import MyPartiesTable from "./myAccount/myPartiesTable";
-import JoinePartiesTable from "./myAccount/joinedPartiesTable";
+import JoinedPartiesTable from "./myAccount/joinedPartiesTable";
 
-let counter = 0;
 const MyAccount = () => {
   const [user, setUser] = useState({});
   const [characters, setCharacters] = useState([]);
   const [myParties, setMyParties] = useState([]);
   const [parties, setParties] = useState([]);
-  const auth = authService.getCurrentUser();
 
   useEffect(() => {
     const fetchData = async () => {
+      const auth = authService.getCurrentUser();
       const user = await userService.getUser(auth._id);
       setUser(user.data);
 
@@ -36,8 +35,6 @@ const MyAccount = () => {
     fetchData();
   }, []);
 
-  counter = counter + 1;
-  console.log("CHUJTER " + counter);
   return (
     <div className="container my-5">
       <h1 className="mb-5">Welcome, {user.name}!</h1>
@@ -51,7 +48,7 @@ const MyAccount = () => {
               <MyPartiesTable parties={myParties} />
             </div>
             <div className="col-sm-6">
-              <JoinePartiesTable
+              <JoinedPartiesTable
                 parties={parties}
                 characters={characters}
                 user={user}

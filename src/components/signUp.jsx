@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Input from "./common/input";
 import Button from "./common/button";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Joi from "joi-browser";
 import authService from "../services/authService";
 import * as userService from "../services/userService";
@@ -132,9 +132,9 @@ const SignUp = () => {
 
           <div className="mt-3">
             <Button text="Save" type="submit" btnType="btn btn-success" />
-            <NavLink className="btn btn-danger ml-2" to="/home">
+            <Link className="btn btn-danger ml-2" to="/home">
               Take me out of here
-            </NavLink>
+            </Link>
           </div>
         </form>
       </div>
