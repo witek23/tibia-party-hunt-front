@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import partyService from "../services/partyService";
 import { useHistory } from "react-router-dom";
+import characterService from "../services/characterService";
+import PartyCharactersTable from "./party/partyCharactersTable";
 
 const Party = () => {
   const [party, setParty] = useState({});
@@ -15,16 +17,41 @@ const Party = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!data.state) {
+      let _party = data.state && data.state;
+      if (!_party) {
         const pt = await partyService.getParties();
         const name = getPartyNamyFromUrl(data).replace("_", " ");
-        const _party = pt.data.filter((p) => p.name === name);
-        setParty(_party[0]);
+        _party = pt.data.filter((p) => p.name === name)[0];
       }
+
+      const { data: characters } = await characterService.getCharacters();
+      const leaderData = characters.filter(
+        (l) => l._id === _party.partyLeaderId
+      )[0];
+      leaderData.isLeader = true;
+
+      _party.members.forEach((ptMember) => {
+        ptMember = characters.filter((char) => char._id === ptMember._id)[0];
+      });
+      _party.members = [..._party.members, leaderData];
+
+      setParty(_party);
     };
+
     fetchData();
   }, [data]);
-  return <h1>{party.name}</h1>;
+
+  return (
+    <div className="container">
+      {!party._id && <div>Content is loading...</div>}
+      {party._id && (
+        <React.Fragment>
+          <h2>{party.name}</h2>
+          <PartyCharactersTable members={party.members} />
+        </React.Fragment>
+      )}
+    </div>
+  );
 };
 
 export default Party;

@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const tableColumns = [
   {
-    label: "Character",
+    label: "Party Name",
     path: "name",
-    width: "44%",
+    width: "100%",
     content: (party) => (
       <Link
         to={{
@@ -17,16 +17,6 @@ const tableColumns = [
         {party.name}
       </Link>
     ),
-  },
-  {
-    label: "World",
-    path: "world",
-    width: "28%",
-  },
-  {
-    label: "Vocation",
-    path: "vocation",
-    width: "28%",
   },
 ];
 

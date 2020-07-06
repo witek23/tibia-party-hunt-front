@@ -77,8 +77,8 @@ const CreateParty = () => {
     }
 
     try {
-      const pt = await partyService.createParty(party);
-      history.push("/my-account/party/" + pt.name).replace(" ", "_");
+      await partyService.createParty(party);
+      history.push("/my-account/party/" + party.name.replace(" ", "_"));
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const { data } = ex.response;
