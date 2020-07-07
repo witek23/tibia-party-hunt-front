@@ -5,7 +5,8 @@ import characterService from "../services/characterService";
 import PartyCharactersTable from "./party/partyCharactersTable";
 
 const Party = () => {
-  const [party, setParty] = useState({});
+  const [party, setParty] = useState([]);
+  const [allCharacters, setAllCharacters] = useState([]);
   const data = useHistory().location;
 
   const getPartyNamyFromUrl = (location) => {
@@ -25,6 +26,7 @@ const Party = () => {
       }
 
       const { data: characters } = await characterService.getCharacters();
+      setAllCharacters(characters);
       const leaderData = characters.filter(
         (l) => l._id === _party.partyLeaderId
       )[0];
@@ -47,7 +49,10 @@ const Party = () => {
       {party._id && (
         <React.Fragment>
           <h2>{party.name}</h2>
-          <PartyCharactersTable members={party.members} />
+          <PartyCharactersTable
+            members={party.members}
+            allCharacters={allCharacters}
+          />
         </React.Fragment>
       )}
     </div>

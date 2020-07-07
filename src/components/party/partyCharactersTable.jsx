@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Table from "../common/table";
+import InviteCharacterModal from "./inviteCharacterModal";
 
 const tableColumns = [
   {
@@ -29,17 +30,12 @@ const tableColumns = [
   },
 ];
 
-const PartyCharactersTable = ({ members }) => {
+const PartyCharactersTable = ({ members, allCharacters }) => {
   return (
     <div className="card">
       <div className="card-header text-white bg-warning">Party Members</div>
       <div className="card-body">
-        <Link
-          className="btn btn-sm btn-danger d-block mb-2"
-          to="/my-account/add-character"
-        >
-          Invite Character
-        </Link>
+        <InviteCharacterModal members={members} allCharacters={allCharacters} />
         <Table columns={tableColumns} data={members} />
       </div>
     </div>
