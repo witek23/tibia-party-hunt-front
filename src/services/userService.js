@@ -14,3 +14,7 @@ export function register(user) {
 export function getUser(id) {
   return http.get(apiUrl + "/" + id);
 }
+
+export default {
+  getUser: getUser,
+};

@@ -1,0 +1,10 @@
+.alert-invite {
+  color: #6fa33e;
+  background-color: #d6f5d6;
+  border-color: #1f7a1f;
+}
+
+.alert-invite-text,
+.alert-invite-text:hover {
+  color: #6fa33e;
+}

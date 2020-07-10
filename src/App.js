@@ -2,6 +2,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import { Switch, Redirect, Route } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import "./custom.css";
 import "./App.css";
 import Navbar from "./components/navbar";
 import Login from "./components/login";

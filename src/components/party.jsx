@@ -48,11 +48,12 @@ const Party = () => {
       {!party._id && <div>Content is loading...</div>}
       {party._id && (
         <React.Fragment>
-          <h2>{party.name}</h2>
-          <PartyCharactersTable
-            members={party.members}
-            allCharacters={allCharacters}
-          />
+          <div className="row">
+            <h2>{party.name}</h2>
+          </div>
+          <div className="row d-block">
+            <PartyCharactersTable party={party} allCharacters={allCharacters} />
+          </div>
         </React.Fragment>
       )}
     </div>
