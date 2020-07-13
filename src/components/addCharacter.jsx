@@ -6,7 +6,7 @@ import Select from "./common/select";
 import Joi from "joi-browser";
 import { NavLink, useHistory } from "react-router-dom";
 import * as characterService from "../services/characterService";
-import { toast } from "react-toastify";
+//import { toast } from "react-toastify";
 
 const user = auth.getCurrentUser() ? auth.getCurrentUser()._id : "";
 const initValues = {
@@ -54,7 +54,7 @@ const AddCharacter = () => {
 
     try {
       await characterService.addCharacter(character);
-      toast.success("Character properply added to DB.");
+      // toast.success("Character properply added to DB.");
       history.push("/my-account");
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {

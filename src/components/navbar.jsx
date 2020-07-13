@@ -1,56 +1,72 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import auth from "../services/authService";
+import React, { useEffect, useState } from "react";
+import { NavLink, Link } from "react-router-dom";
+import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
+import authService from "../services/authService";
+import userService from "../services/userService";
 
-const Navbar = () => {
-  const user = auth.getCurrentUser();
+const Navigation = () => {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const auth = authService.getCurrentUser();
+    const fetchData = async () => {
+      if (auth) {
+        const { data: user } = await userService.getUser(auth._id);
+
+        setUser(user);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <NavLink className="navbar-brand" to="/">
-        Navbar
-      </NavLink>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav mr-auto">
-          <NavLink className="nav-link" to={"/"}>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar.Brand href="#home">Party Statistics</Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto">
+          <NavItem className="nav-link" as={NavLink} to="/home">
             Home
-          </NavLink>
-        </ul>
-        <ul className="navbar-nav ml-auto">
-          {!user && (
-            <React.Fragment>
-              <NavLink className="nav-link ml-auto" to="/login">
-                Sign In
-              </NavLink>
-              <NavLink className="nav-link ml-auto" to="/sign-up">
-                Sign Up
-              </NavLink>
-            </React.Fragment>
-          )}
-          {user && (
-            <React.Fragment>
-              <NavLink className="nav-link ml-auto" to="/my-account">
+          </NavItem>
+          <NavItem className="nav-link" as={Link} to="/">
+            Pricing
+          </NavItem>
+        </Nav>
+        {user.name && (
+          <Nav>
+            <NavItem className="nav-link">Welcome {user.name}</NavItem>
+            <NavDropdown title={"Settings "} id="collasible-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/my-account">
                 My Account
-              </NavLink>
-              <NavLink className="nav-link ml-auto" to="/logout">
-                Sign Out
-              </NavLink>
-            </React.Fragment>
-          )}
-        </ul>
-      </div>
-    </nav>
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item as={Link} to="/logout">
+                Log out
+              </NavDropdown.Item>
+            </NavDropdown>
+            <NavItem className="nav-link" as={NavLink} to="/contact-us">
+              Contact Us
+            </NavItem>
+          </Nav>
+        )}
+        {!user.name && (
+          <Nav>
+            <NavItem className="nav-link" as={NavLink} to="/login">
+              Sign In
+            </NavItem>
+            <NavItem className="nav-link" as={NavLink} to="/contact-us">
+              Contact Us
+            </NavItem>
+          </Nav>
+        )}
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default Navigation;

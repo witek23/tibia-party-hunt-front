@@ -15,6 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Character from "./components/character";
 import CreateParty from "./components/createParty";
 import Party from "./components/party";
+import ContactUs from "./components/contactUs";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <ToastContainer />
       <Navbar />
       <Switch>
+        <Route path="/contact-us" component={ContactUs} />
         <ProtectedRoute path="/my-account/party/:name" component={Party} />
         <ProtectedRoute
           path="/my-account/create-party"

@@ -34,7 +34,6 @@ const tableColumns = [
 const PartyCharactersTable = ({ party, allCharacters }) => {
   const [partyInvs, setPartyInvs] = useState([]);
   const user = auth.getCurrentUser();
-  const myCharacters = allCharacters.filter((c) => c.ownerId === user._id);
   //  const myInvitations = party.filter();
 
   useEffect(() => {
@@ -42,15 +41,45 @@ const PartyCharactersTable = ({ party, allCharacters }) => {
       const {
         data: invs,
       } = await partyInvitationService.getPartyInivitations();
-      const partyInvs = invs.filter((i) => i.partyId === party._id);
+      const pendingInvs = invs.filter(
+        (i) => i.partyId === party._id && i.invStatus === "Pending"
+      );
+      const myCharacters = allCharacters.filter((c) => c.ownerId === user._id);
 
-      setPartyInvs(partyInvs);
+      const myInvs = [];
+      myCharacters.forEach((m) => {
+        pendingInvs.forEach((p) => {
+          if (p.invitedCharId === m._id) {
+            m.invs = p;
+            myInvs.push(m);
+          }
+        });
+      });
+
+      setPartyInvs(myInvs);
     };
-  }, []);
 
+    fetchData();
+  }, [party]);
+
+  const onAccept = () => {
+    console.log("UPDATE ACCEPT");
+  };
+
+  console.log(partyInvs);
   return (
     <div className="card">
       <div className="card-header text-white bg-warning">Party Members</div>
+      {partyInvs.length > 0 &&
+        partyInvs.map((p) => (
+          <React.Fragment>
+            <div className="alert alert-success" key={p._id}>
+              You are invited to {p.name}
+            </div>
+            <button onClick={onAccept}>Accept</button>
+            <button>Decline</button>
+          </React.Fragment>
+        ))}
       <div className="card-body">
         {user._id === party.ownerId && (
           <InviteCharacterModal

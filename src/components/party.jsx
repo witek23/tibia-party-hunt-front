@@ -25,15 +25,18 @@ const Party = () => {
         _party = pt.data.filter((p) => p.name === name)[0];
       }
 
-      const { data: characters } = await characterService.getCharacters();
-      setAllCharacters(characters);
-      const leaderData = characters.filter(
+      const character = await characterService.getCharacters();
+      setAllCharacters(character.data);
+
+      const leaderData = character.data.filter(
         (l) => l._id === _party.partyLeaderId
       )[0];
       leaderData.isLeader = true;
 
       _party.members.forEach((ptMember) => {
-        ptMember = characters.filter((char) => char._id === ptMember._id)[0];
+        ptMember = character.data.filter(
+          (char) => char._id === ptMember._id
+        )[0];
       });
       _party.members = [..._party.members, leaderData];
 
@@ -43,6 +46,7 @@ const Party = () => {
     fetchData();
   }, [data]);
 
+  console.log(allCharacters);
   return (
     <div className="container">
       {!party._id && <div>Content is loading...</div>}
