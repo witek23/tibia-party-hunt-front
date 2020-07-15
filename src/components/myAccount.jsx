@@ -36,28 +36,30 @@ const MyAccount = () => {
   }, []);
 
   return (
-    <div className="container my-5">
-      <h1 className="mb-5">Welcome, {user.name}!</h1>
-      <div className="row">
-        <div className="col-sm-12 mb-3">
-          <MyCharactersTable characters={characters} />
-        </div>
-        <div className="col-sm-12 mb-3">
-          <div className="row">
-            <div className="col-sm-6">
-              <MyPartiesTable parties={myParties} />
-            </div>
-            <div className="col-sm-6">
-              <JoinedPartiesTable
-                parties={parties}
-                characters={characters}
-                user={user}
-              />
+    <>
+      <div className="container my-5">
+        <h1 className="mb-5">Welcome, {user.name}!</h1>
+        <div className="row">
+          <div className="col-sm-12 mb-3">
+            <MyCharactersTable characters={characters} />
+          </div>
+          <div className="col-sm-12 mb-3">
+            <div className="row">
+              <div className="col-sm-6">
+                <MyPartiesTable parties={myParties} />
+              </div>
+              <div className="col-sm-6">
+                <JoinedPartiesTable
+                  parties={parties}
+                  characters={characters}
+                  user={user}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

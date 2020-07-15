@@ -6,9 +6,10 @@ import userService from "../services/userService";
 
 const Character = () => {
   const history = useHistory();
-  const [character, setCharacter] = useState(
-    history.location.state ? history.location.state.character : {}
-  );
+  const character = history.location.state
+    ? history.location.state.character
+    : {};
+
   const [partyInvs, setPartyInvs] = useState([]);
 
   useEffect(() => {
