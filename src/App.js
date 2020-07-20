@@ -7,11 +7,11 @@ import "./App.css";
 import Home from "./components/home";
 /*
 import Navbar from "./components/navbar";
-import Login from "./components/login";
+
 import SignUp from "./components/signUp";
 
 import AddCharacter from "./components/addCharacter";
-import Logout from "./components/logout";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import Character from "./components/character";
 import CreateParty from "./components/createParty";
@@ -19,10 +19,15 @@ import Party from "./components/party";
 import ContactUs from "./components/contactUs";*/
 
 //////////////////////
-import DashboardLayout from "./components/layouts/dashboard";
-import DefaultLayoutRoute from "./components/layouts/default";
-import MyAccount from "./components/myAccount";
+import DashboardLayout from "./components/layouts/dashboard/dashboard";
+import DefaultLayout from "./components/layouts/default/default";
+import EmptyLayout from "./components/layouts/empty/empty";
+
 import ProtectedRoute from "./components/ProtectedRoute";
+
+import MyAccount from "./components/myAccount";
+import Login from "./components/login";
+import Logout from "./components/logout";
 
 function App() {
   return (
@@ -30,7 +35,9 @@ function App() {
       <ToastContainer />
       <Switch>
         <Redirect path="/" exact to="/home" />
-        <DefaultLayoutRoute._Route path="/home" component={Home} />
+        <EmptyLayout._Route path="/logout" component={Logout} />
+        <EmptyLayout._Route path="/login" component={Login} />
+        <DefaultLayout._Route path="/home" component={Home} />
         <ProtectedRoute
           path="/my-account"
           layout={DashboardLayout.Layout}
