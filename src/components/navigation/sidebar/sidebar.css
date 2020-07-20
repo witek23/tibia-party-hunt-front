@@ -1,0 +1,34 @@
+.sidebar-wrapper {
+  height: 100%;
+  background-color: #333;
+}
+
+.sidebar-brand {
+  padding: 1.5rem;
+  display: flex;
+  color: #fff;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.sidebar-item {
+  padding: 1rem;
+  color: #fff;
+}
+
+.sidebar-item-active {
+  color: #fff;
+  background-color: #262626;
+  padding: 1rem;
+  box-shadow: inset 0 0 0.5rem #b3b3b3;
+}
+
+.sidebar-item:hover {
+  background-color: #404040;
+}
+
+.sidebar-item:hover,
+.sidebar-item-active:hover {
+  color: white;
+}
