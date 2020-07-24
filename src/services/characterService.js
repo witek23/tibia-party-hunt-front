@@ -7,6 +7,11 @@ export function getCharacters() {
   return http.get(apiUrl);
 }
 
+export async function getCharactersByUser(userId) {
+  const { data: chars } = await http.get(apiUrl);
+  return chars.filter((c) => c.ownerId === userId);
+}
+
 export function addCharacter(character) {
   return http.post(apiUrl, {
     name: character.name,
@@ -17,6 +22,7 @@ export function addCharacter(character) {
 }
 
 export default {
+  getCharactersByUser,
   getCharacters,
   addCharacter,
 };

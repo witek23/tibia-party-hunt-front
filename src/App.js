@@ -25,10 +25,12 @@ import EmptyLayout from "./components/layouts/empty/empty";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
+import Dashboard from "./components/dashboardComponents/dashboard/dashboard";
 import Hunts from "./components/dashboardComponents/hunts/hunts";
 import MyAccount from "./components/myAccount";
 import Login from "./components/login";
 import Logout from "./components/logout";
+import Invitations from "./components/dashboardComponents/invitations/invitations";
 
 function App() {
   return (
@@ -40,6 +42,17 @@ function App() {
         <EmptyLayout._Route path="/logout" component={Logout} />
         <EmptyLayout._Route path="/login" component={Login} />
         <DefaultLayout._Route path="/home" component={Home} />
+
+        <ProtectedRoute
+          path="/dashboard/invitations"
+          layout={DashboardLayout.Layout}
+          component={Invitations}
+        />
+        <ProtectedRoute
+          path="/dashboard"
+          layout={DashboardLayout.Layout}
+          component={Dashboard}
+        />
         <ProtectedRoute
           path="/my-account"
           layout={DashboardLayout.Layout}
@@ -51,29 +64,3 @@ function App() {
 }
 
 export default App;
-
-/*      <Switch>
-        <ProtectedRoute path="/my-account/party/:name" component={Party} />
-        <ProtectedRoute
-          path="/my-account/create-party"
-          component={CreateParty}
-        />
-        <ProtectedRoute
-          path="/my-account/characters/:name"
-          component={Character}
-        />
-        <ProtectedRoute
-          path="/my-account/add-character"
-          component={AddCharacter}
-        />
-
-        <ProtectedRoute path="/dashboard" component={Dashboard} />
-        <Route path="/contact-us" component={ContactUs} />
-        <Route path="/sign-up" component={SignUp} />
-        <Route path="/logout" component={Logout} />
-        <Route path="/login" component={Login} />
-        <Route path="/home" component={Home} />
-        <Redirect path="/" exact to="/home" />
-        <Redirect to="/not-found" />
-      </Switch>
-      */

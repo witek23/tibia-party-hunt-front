@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import Navbar from "../../navbar";
+import Navbar from "../../navigation/navbar/navbar";
 
 const Layout = ({ children }) => {
   return (

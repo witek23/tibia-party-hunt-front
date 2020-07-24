@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
-import authService from "../services/authService";
-import userService from "../services/userService";
+import authService from "../../../services/authService";
+import userService from "../../../services/userService";
 
 const Navigation = () => {
   const [user, setUser] = useState({});
@@ -37,13 +37,9 @@ const Navigation = () => {
           <Nav>
             <NavItem className="nav-link">Welcome {user.name}</NavItem>
             <NavDropdown title={"Settings "} id="collasible-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/my-account">
-                My Account
+              <NavDropdown.Item as={Link} to="/dashboard">
+                Dashboard
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item as={Link} to="/logout">
                 Log out

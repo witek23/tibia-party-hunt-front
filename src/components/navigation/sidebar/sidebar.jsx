@@ -1,21 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import "./sidebar.css";
 
 const paths = [
+  { label: "Dashboard", path: "/dashboard" },
   { label: "My Account", path: "/my-account" },
   { label: "Hunts", path: "/hunts" },
+  { label: "Home", path: "/home" },
 ];
 
-let active = "/my-account";
+let active = "/dashboard";
 
 const Sidebar = () => {
   const handleActive = (_path) => {
     active = _path;
   };
 
-  console.log(active);
   return (
     <>
       <Nav defaultActiveKey="/home" className="sidebar-wrapper flex-column">
@@ -36,7 +37,6 @@ const Sidebar = () => {
       </Nav>
     </>
   );
-  // <Nav collapseOnSelect expand="lg" className="sidebar box-shadow"></Nav>
 };
 
 export default Sidebar;

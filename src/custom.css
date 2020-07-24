@@ -22,3 +22,7 @@ code {
   font-family: "Roboto", source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.box-shadow {
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.6);
+}
