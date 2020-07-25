@@ -1,129 +1,160 @@
-import React, { useState, useEffect } from "react";
-
-import invitationService from "../../../services/partyInvitationService";
+import React, { Component } from "react";
 import authService from "../../../services/authService";
-import partyService from "../../../services/partyService";
+import userService from "../../../services/userService";
 import characterService from "../../../services/characterService";
-//import userService from "../../../services/userService";
+import invService from "../../../services/partyInvitationService";
+import partyService from "../../../services/partyService";
 
-import _ from "lodash";
+class Invitations extends Component {
+  state = {
+    user: [],
+    characters: [],
+    invitations: [],
+    parties: [],
+    loading: true,
+  };
 
-const Invitations = () => {
-  const [invs, setInvs] = useState([]);
-  const [characters, setCharacters] = useState([]);
-  const [parties, setParties] = useState([]);
+  componentDidMount = async () => {
+    const { _id: userId } = authService.getCurrentUser();
+    this.populateUser(userId);
+    const myChars = await this.populateCharacters(userId);
+    const parties = await this.populateParties();
+    await this.populateInvitations(myChars, parties);
+    this.setLoading(false);
+  };
 
-  useEffect(() => {
-    console.log("use effect runs");
-    const fetchData = async () => {
-      const user = authService.getCurrentUser();
-      const { data: invs } = await invitationService.getPartyInivitations();
-      const { data: parties } = await partyService.getParties();
-      const characters = await characterService.getCharactersByUser(user._id);
+  populateUser = async (userId) => {
+    const { data: user } = await userService.getUser(userId);
+    this.setState({ user });
+  };
 
-      const myInvs = [];
-      invs.forEach((i) => {
-        characters.forEach((c) => {
-          if (i.invitedCharId === c._id) {
-            const invOwner = i.invOwner;
-            const party = parties.filter((p) => p._id === i.partyId)[0];
-            const status = i.invStatus;
-            const char = characters.filter(
-              (ch) => i.invitedCharId === ch._id
-            )[0];
-            const partyInv = {
-              _id: i._id,
-              invOwner: invOwner,
-              invStatus: status,
-              invitedCharId: char,
-              partyId: party,
-            };
-            myInvs.push(partyInv);
-          }
-        });
-      });
+  populateCharacters = async (userId) => {
+    const characters = await characterService.getCharactersByUser(userId);
+    this.setState({ characters });
 
-      setInvs(myInvs);
-      setCharacters(characters);
-      setParties(parties);
-    };
+    return characters;
+  };
 
-    fetchData();
-  }, []);
+  populateInvitations = async (myChars, parties) => {
+    const { data: invs } = await invService.getPartyInivitations();
+    const myInvs = invs.filter((i) => {
+      return myChars.find((c) => c._id === i.invitedCharId);
+    });
 
-  const handleAccept = async (i) => {
+    const invitations = [];
+    for await (let inv of myInvs) {
+      const { data: invOwner } = await userService.getUser(inv.invOwner);
+      const party = parties.find((p) => p._id === inv.partyId);
+      const invitedChar = myChars.find((c) => c._id === inv.invitedCharId);
+
+      let invItem = {
+        _id: inv._id,
+        owner: invOwner,
+        party: party,
+        status: inv.invStatus,
+        invitedChar: invitedChar,
+      };
+      invitations.push(invItem);
+    }
+
+    this.setState({ invitations });
+  };
+
+  populateParties = async () => {
+    const { data: parties } = await partyService.getParties();
+    this.setState({ parties });
+
+    return parties;
+  };
+
+  setLoading = (state) => {
+    this.setState({ loading: state });
+  };
+
+  handleChangeStatus = async (invItem, status) => {
     try {
-      const { data: inv } = await invitationService.updateStatus(
-        i._id,
-        "Accepted"
-      );
-      const invChars = [...invs];
-      invChars.forEach((c) => {
-        if (c.invitedCharId === i.invitedCharId._id) c.invStatus = "Accepted";
+      await invService.updateStatus(invItem._id, status);
+      const invitations = [...this.state.invitations];
+      invitations.forEach((c) => {
+        if (c._id === invItem._id) c.status = status;
       });
-      setInvs(invChars);
+
+      this.setState({ invitations });
+      return;
     } catch (ex) {
       console.log(ex.response);
     }
   };
 
-  const handleCancel = async (val) => {
-    console.log(val);
-  };
-
-  return (
-    <div className="container-liquid">
-      <h2 className="p-5">Invitations</h2>
-      <div className="row p-5">
-        {invs.length === 0 && (
-          <div className="alert alert-success" role="alert">
-            <h4 className="alert-heading">Invs</h4>
-            <p>There are no invitations yet.</p>
-            <p className="mb-0">lul</p>
-          </div>
+  render() {
+    const { invitations, loading } = this.state;
+    return (
+      <>
+        {loading && <div>Loading ...</div>}
+        {!loading && (
+          <>
+            <div className="container-liquid">
+              <h2 className="p-5">Invitations</h2>
+              <div className="row p-5">
+                {invitations.length === 0 && (
+                  <div className="alert alert-success" role="alert">
+                    <h4 className="alert-heading">Invs</h4>
+                    <p>There are no invitations yet.</p>
+                    <p className="mb-0">lul</p>
+                  </div>
+                )}
+                {invitations.length > 0 && (
+                  <table className="table">
+                    <thead className="bg-dark text-white">
+                      <tr>
+                        <td>Name</td>
+                        <td>Vocation</td>
+                        <td>Inv Status</td>
+                        <td>Party Name</td>
+                        <td></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {invitations.map((i) => (
+                        <tr key={i._id}>
+                          <td>{i.invitedChar.name}</td>
+                          <td>{i.invitedChar.vocation}</td>
+                          <td>{i.status}</td>
+                          <td>{i.party.name}</td>
+                          <td>
+                            {i.status === "Pending" && (
+                              <>
+                                <button
+                                  className="btn btn-success"
+                                  onClick={() =>
+                                    this.handleChangeStatus(i, "Accepted")
+                                  }
+                                >
+                                  Accept
+                                </button>
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() =>
+                                    this.handleChangeStatus(i, "Declined")
+                                  }
+                                >
+                                  Cancel
+                                </button>
+                              </>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          </>
         )}
-        {invs.length > 0 && (
-          <table className="table">
-            <thead className="bg-dark text-white">
-              <tr>
-                <td>Name</td>
-                <td>Vocation</td>
-                <td>Inv Status</td>
-                <td></td>
-              </tr>
-            </thead>
-            <tbody>
-              {invs.map((i) => (
-                <tr key={i._id}>
-                  <td>{i.invitedCharId.name}</td>
-                  <td>{i.invitedCharId.vocation}</td>
-                  <td>{i.invStatus}</td>
-                  <td>
-                    {i.invStatus === "Pending" && (
-                      <>
-                        <button
-                          className="btn btn-success"
-                          onClick={() => handleAccept(i)}
-                        >
-                          Accept
-                        </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => handleCancel(i)}
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-    </div>
-  );
-};
+      </>
+    );
+  }
+}
 
 export default Invitations;
