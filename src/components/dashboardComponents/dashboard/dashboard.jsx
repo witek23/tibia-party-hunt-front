@@ -33,7 +33,7 @@ const Dashboard = () => {
       <h2 className="p-5">Dashboard</h2>
       <div className="container-liquid m-5">
         <div className="row">
-          <Card className="box-shadow" style={{ width: "auto" }}>
+          <Card className="box-shadow mr-3" style={{ width: "auto" }}>
             <Card.Body>
               <Card.Title>Party Invitations</Card.Title>
               <Card.Text>
@@ -51,6 +51,21 @@ const Dashboard = () => {
                 {!partyInvs && (
                   <span>There are no new invitations for now.</span>
                 )}
+              </Card.Text>
+            </Card.Body>
+          </Card>
+          <Card className="box-shadow mr-3">
+            <Card.Body>
+              <Card.Title>Characters</Card.Title>
+              <Card.Text>
+                Manage your characters{" "}
+                <Link
+                  className="text-decoration-none"
+                  to={"/dashboard/characters"}
+                >
+                  <strong>here</strong>
+                </Link>
+                .
               </Card.Text>
             </Card.Body>
           </Card>

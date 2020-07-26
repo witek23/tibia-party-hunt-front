@@ -109,8 +109,8 @@ class Invitations extends Component {
                       <tr>
                         <td>Name</td>
                         <td>Vocation</td>
-                        <td>Inv Status</td>
                         <td>Party Name</td>
+                        <td>Inv Status</td>
                         <td></td>
                       </tr>
                     </thead>
@@ -119,8 +119,8 @@ class Invitations extends Component {
                         <tr key={i._id}>
                           <td>{i.invitedChar.name}</td>
                           <td>{i.invitedChar.vocation}</td>
-                          <td>{i.status}</td>
                           <td>{i.party.name}</td>
+                          <td>{i.status}</td>
                           <td>
                             {i.status === "Pending" && (
                               <>

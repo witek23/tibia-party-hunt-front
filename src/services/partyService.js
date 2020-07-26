@@ -11,6 +11,11 @@ export function getParty(id) {
   return http.get(apiUrl + "/" + id);
 }
 
+export async function getPartyByUser(userId) {
+  const { data: parties } = http.get(apiUrl);
+  return (parties && parties.filter((p) => p.ownerId === userId)) || [];
+}
+
 export function createParty(party) {
   return http.post(apiUrl, {
     name: party.name,
@@ -24,5 +29,6 @@ export function createParty(party) {
 export default {
   getParty: getParty,
   getParties: getParties,
+  getPartyByUser: getPartyByUser,
   createParty: createParty,
 };

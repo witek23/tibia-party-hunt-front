@@ -31,6 +31,10 @@ import MyAccount from "./components/myAccount";
 import Login from "./components/login";
 import Logout from "./components/logout";
 import Invitations from "./components/dashboardComponents/invitations/invitations";
+import Characters from "./components/dashboardComponents/characters/characters";
+import Character from "./components/dashboardComponents/characters/character";
+import NotFound from "./components/notFound";
+import Parties from "./components/dashboardComponents/party/parties";
 
 function App() {
   return (
@@ -38,11 +42,30 @@ function App() {
       <ToastContainer />
       <Switch>
         <Redirect path="/" exact to="/home" />
+
         <DashboardLayout._Route path="/hunts" component={Hunts} />
+
+        <EmptyLayout._Route path="/not-found" component={NotFound} />
         <EmptyLayout._Route path="/logout" component={Logout} />
         <EmptyLayout._Route path="/login" component={Login} />
+
         <DefaultLayout._Route path="/home" component={Home} />
 
+        <ProtectedRoute
+          path="/dashboard/parties"
+          layout={DashboardLayout.Layout}
+          component={Parties}
+        />
+        <ProtectedRoute
+          path="/dashboard/characters/:id"
+          layout={DashboardLayout.Layout}
+          component={Character}
+        />
+        <ProtectedRoute
+          path="/dashboard/characters"
+          layout={DashboardLayout.Layout}
+          component={Characters}
+        />
         <ProtectedRoute
           path="/dashboard/invitations"
           layout={DashboardLayout.Layout}
