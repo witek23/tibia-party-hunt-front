@@ -22,6 +22,8 @@ import Character from "./components/dashboardComponents/characters/character";
 import AddCharacter from "./components/dashboardComponents/characters/addCharacter";
 import NotFound from "./components/notFound";
 import Parties from "./components/dashboardComponents/party/parties";
+import Party from "./components/dashboardComponents/party/party";
+import AddParty from "./components/dashboardComponents/party/addParty";
 
 function App() {
   return (
@@ -38,6 +40,16 @@ function App() {
 
         <DefaultLayout._Route path="/home" component={Home} />
 
+        <ProtectedRoute
+          path="/dashboard/parties/add-party"
+          layout={DashboardLayout.Layout}
+          component={AddParty}
+        />
+        <ProtectedRoute
+          path="/dashboard/parties/:id"
+          layout={DashboardLayout.Layout}
+          component={Party}
+        />
         <ProtectedRoute
           path="/dashboard/characters/add-character"
           layout={DashboardLayout.Layout}

@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
 import authService from "../../../services/authService";
 import partyService from "../../../services/partyService";
+import characterService from "../../../services/characterService";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Parties = () => {
-  const [parties, setParties] = useState([]);
+  const [myParties, setMyParties] = useState([]);
+  const [joinedParties, setJoinedParties] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const { _id: userId } = authService.getCurrentUser();
-      const parties = await partyService.getPartyByUser(userId);
+      const { data: parties } = await partyService.getParties();
+      const myParties = parties.filter((p) => p.ownerId === userId);
+      const myCharacters = await characterService.getCharactersByUser(userId);
+      const joinedParties = parties.filter((p) => {
+        //   myCharacters.any();
+      });
 
-      setParties(parties);
+      setMyParties(myParties);
     };
 
     fetchData();
@@ -22,8 +29,8 @@ const Parties = () => {
     <div className="content-container">
       <h2 className="">Parties</h2>
       <div className="row">
-        {parties.length > 0 &&
-          parties.map((p) => (
+        {myParties.length > 0 &&
+          myParties.map((p) => (
             <Card
               key={p._id}
               className="box-shadow mr-3 text-center"
@@ -49,9 +56,9 @@ const Parties = () => {
             <Card.Text>
               <Link
                 className="text-decoration-none text-muted"
-                to={"/dashboard/parties/create-party"}
+                to={"/dashboard/parties/add-party"}
               >
-                Create Party
+                Add Party
               </Link>
             </Card.Text>
           </Card.Body>

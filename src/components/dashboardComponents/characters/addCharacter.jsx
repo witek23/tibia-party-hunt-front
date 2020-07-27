@@ -7,14 +7,6 @@ import { NavLink, useHistory } from "react-router-dom";
 import characterService from "../../../services/characterService";
 import authService from "../../../services/authService";
 
-const { _id: userId } = authService.getCurrentUser();
-const initValues = {
-  name: "",
-  vocation: "",
-  world: "",
-  ownerId: userId,
-};
-
 const joiSchema = {
   name: Joi.string().min(3).max(30).required().label("Character Name"),
   world: Joi.string().required().min(3).max(15).label("World"),
@@ -25,6 +17,13 @@ const joiSchema = {
 const vocations = ["Knight", "Druid", "Paladin", "Sorcerer"];
 
 const AddCharacter = () => {
+  const { _id: userId } = authService.getCurrentUser();
+  const initValues = {
+    name: "",
+    vocation: "",
+    world: "",
+    ownerId: userId,
+  };
   const [character, setCharacter] = useState(initValues || {});
   const [errors, setErrors] = useState({});
   const history = useHistory();

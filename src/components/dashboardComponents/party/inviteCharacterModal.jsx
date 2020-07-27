@@ -1,43 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import InvitationButton from "./invitationButton";
-import partyInvitationService from "../../services/partyInvitationService";
+import InvitationButton from "../../party/invitationButton";
+import partyInvitationService from "../../../services/partyInvitationService";
+import characterService from "../../../services/characterService";
+import invitationsService from "../../../services/partyInvitationService";
 
-const InviteCharacterModal = ({ party, allCharacters, user, partyInvs }) => {
+const InviteCharacterModal = ({ party, user }) => {
   const [invitableChars, setInvitableChars] = useState([]);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const partyWorld = party.members.filter((m) => m.isLeader)[0].world;
-      const charsFromWorld = allCharacters.filter(
-        (c) => c.world === partyWorld
-      );
+      const { data: characters } = await characterService.getCharacters();
+      const {
+        data: invitations,
+      } = await invitationsService.getPartyInivitations();
+      const { world } = characters.find((c) => c._id === party.partyLeaderId);
 
-      const notMembers = [];
-      charsFromWorld.forEach((c) => {
-        let found = false;
-        party.members.forEach((m) => {
-          if (c._id === m._id) found = true;
+      const invitableChars = characters.filter((c) => c.world === world);
+      for (let i = 0; i < invitableChars.length; i++) {
+        party.members.forEach((p) => {
+          if (invitableChars[i]._id === p._id) invitableChars.splice(i, 1);
         });
 
-        if (!found) {
-          c.invitation = {};
-          notMembers.push(c);
-        }
-      });
+        if (invitableChars[i]._id === party.partyLeaderId)
+          invitableChars.splice(i, 1);
+      }
 
-      notMembers.forEach((nm) => {
-        partyInvs.forEach((p) => {
-          if (nm._id === p.invitedCharId) nm.invitation = p;
+      console.log(invitations);
+
+      invitableChars.forEach((c) => {
+        invitations.forEach((i) => {
+          if (c._id === i.invitedCharId) {
+            c.invitation = i;
+          }
         });
       });
 
-      setInvitableChars(notMembers);
+      setInvitableChars(invitableChars);
     };
 
     fetchData();
-  }, [partyInvs, allCharacters, party]);
+  }, [party]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -121,7 +125,7 @@ const InviteCharacterModal = ({ party, allCharacters, user, partyInvs }) => {
                     <tr key={c._id}>
                       <td key={c.name}>{c.name}</td>
                       <td key={c.vocation}>{c.vocation}</td>
-                      <td key={c.name + " invitation"}>
+                      <td key={c._id + " invitation"}>
                         {c.invitation.invStatus || ""}
                       </td>
                       <td>
