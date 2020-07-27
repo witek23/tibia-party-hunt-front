@@ -5,20 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./custom.css";
 import "./App.css";
 import Home from "./components/home";
-/*
-import Navbar from "./components/navbar";
-
-import SignUp from "./components/signUp";
-
-import AddCharacter from "./components/addCharacter";
-
-import ProtectedRoute from "./components/ProtectedRoute";
-import Character from "./components/character";
-import CreateParty from "./components/createParty";
-import Party from "./components/party";
-import ContactUs from "./components/contactUs";*/
-
-//////////////////////
 import DashboardLayout from "./components/layouts/dashboard/dashboard";
 import DefaultLayout from "./components/layouts/default/default";
 import EmptyLayout from "./components/layouts/empty/empty";
@@ -33,6 +19,7 @@ import Logout from "./components/logout";
 import Invitations from "./components/dashboardComponents/invitations/invitations";
 import Characters from "./components/dashboardComponents/characters/characters";
 import Character from "./components/dashboardComponents/characters/character";
+import AddCharacter from "./components/dashboardComponents/characters/addCharacter";
 import NotFound from "./components/notFound";
 import Parties from "./components/dashboardComponents/party/parties";
 
@@ -51,6 +38,11 @@ function App() {
 
         <DefaultLayout._Route path="/home" component={Home} />
 
+        <ProtectedRoute
+          path="/dashboard/characters/add-character"
+          layout={DashboardLayout.Layout}
+          component={AddCharacter}
+        />
         <ProtectedRoute
           path="/dashboard/parties"
           layout={DashboardLayout.Layout}

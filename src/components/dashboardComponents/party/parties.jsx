@@ -11,16 +11,17 @@ const Parties = () => {
     const fetchData = async () => {
       const { _id: userId } = authService.getCurrentUser();
       const parties = await partyService.getPartyByUser(userId);
-      console.log(parties);
-      //setParties(parties);
+
+      setParties(parties);
     };
 
     fetchData();
-  });
+  }, []);
+
   return (
     <div className="content-container">
-      <h2>Parties</h2>
-      <div className="row m-5">
+      <h2 className="">Parties</h2>
+      <div className="row">
         {parties.length > 0 &&
           parties.map((p) => (
             <Card
@@ -41,6 +42,20 @@ const Parties = () => {
               </Card.Body>
             </Card>
           ))}
+      </div>
+      <div className="row">
+        <Card className="box-shadow mr-3 text-center">
+          <Card.Body>
+            <Card.Text>
+              <Link
+                className="text-decoration-none text-muted"
+                to={"/dashboard/parties/create-party"}
+              >
+                Create Party
+              </Link>
+            </Card.Text>
+          </Card.Body>
+        </Card>
       </div>
     </div>
   );

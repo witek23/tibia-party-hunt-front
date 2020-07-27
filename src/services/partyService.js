@@ -12,7 +12,7 @@ export function getParty(id) {
 }
 
 export async function getPartyByUser(userId) {
-  const { data: parties } = http.get(apiUrl);
+  const { data: parties } = await http.get(apiUrl);
   return (parties && parties.filter((p) => p.ownerId === userId)) || [];
 }
 
