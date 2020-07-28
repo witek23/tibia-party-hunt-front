@@ -13,7 +13,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import Dashboard from "./components/dashboardComponents/dashboard/dashboard";
 import Hunts from "./components/dashboardComponents/hunts/hunts";
-import MyAccount from "./components/myAccount";
 import Login from "./components/login";
 import Logout from "./components/logout";
 import Invitations from "./components/dashboardComponents/invitations/invitations";
@@ -42,6 +41,11 @@ function App() {
         <DefaultLayout._Route path="/sign-up" component={SignUp} />
         <DefaultLayout._Route path="/home" component={Home} />
 
+        <ProtectedRoute
+          path="/dashboard/hunts/:partyId"
+          layout={DashboardLayout.Layout}
+          component={Hunts}
+        />
         <ProtectedRoute
           path="/dashboard/parties/add-party"
           layout={DashboardLayout.Layout}
@@ -81,11 +85,6 @@ function App() {
           path="/dashboard"
           layout={DashboardLayout.Layout}
           component={Dashboard}
-        />
-        <ProtectedRoute
-          path="/my-account"
-          layout={DashboardLayout.Layout}
-          component={MyAccount}
         />
       </Switch>
     </React.Fragment>

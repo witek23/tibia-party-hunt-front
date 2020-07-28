@@ -5,7 +5,6 @@ import "./sidebar.css";
 
 const paths = [
   { label: "Dashboard", path: "/dashboard" },
-  { label: "My Account", path: "/my-account" },
   { label: "Characters", path: "/dashboard/characters" },
   { label: "Parties", path: "/dashboard/parties" },
   { label: "Hunts", path: "/hunts" },

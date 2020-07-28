@@ -9,11 +9,6 @@
   width: 270px;
 }
 
-.content-container {
-  min-height: 100%;
-  width: 100%;
-}
-
 @media (max-width: 768px) {
   .dashboard-wrapper {
     display: block;

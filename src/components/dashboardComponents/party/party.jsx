@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { Redirect, Link } from "react-router-dom";
 import partyService from "../../../services/partyService";
-import { Redirect } from "react-router-dom";
+//import authService from "../../../services/authService";
+import characterService from "../../../services/characterService";
 import InviteCharacterModal from "./inviteCharacterModal";
+import Table from "../../common/table";
+
+const columns = [
+  {
+    label: "Name",
+    path: "name",
+  },
+  {
+    label: "Vocation",
+    path: "vocation",
+  },
+];
 
 const Character = (props) => {
-  const [party, setParty] = useState([]);
+  const [party, setParty] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +29,26 @@ const Character = (props) => {
           props.match.params.id
         );
 
+        party.members = [...party.members, party.partyLeaderId];
+        const members = [];
+        for await (const m of party.members) {
+          const { data: char } = await characterService.getCharacter(m);
+          members.push(char);
+        }
+        party.members = [...members];
         setParty(party);
+
+        /*   const user = authService.getCurrentUser();
+        /*  const kickChar = {
+          key: "Kick Char",
+          label: "",
+          content: () => {
+            return "Hello";
+          },
+        };
+        /*    if (user._id === party.ownerId) {
+          columns.push(kickChar);
+        }*/
       } catch (ex) {
         if (ex.response.status === 404) setError("not found");
       }
@@ -27,15 +60,19 @@ const Character = (props) => {
 
   if (!loading && error === "not found") return <Redirect to={"/not-found"} />;
 
+  console.log(party._id);
   return (
     <>
-      <div className="content-container">
+      <div>
         {loading && <h3>Loading...</h3>}
         {party._id && !loading && (
           <div>
             <h2>{party.name}</h2>
-            <div>Some party data</div>
             <InviteCharacterModal party={party} />
+            <Table columns={columns} data={party.members} />
+            <Link to={"/dashboard/hunts/" + party._id} className="btn btn-info">
+              Check Hunts
+            </Link>
           </div>
         )}
       </div>

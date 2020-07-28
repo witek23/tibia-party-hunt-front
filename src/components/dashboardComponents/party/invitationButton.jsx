@@ -6,13 +6,10 @@ const InvitationButton = ({ character, onClick }) => {
 
   const status = character?.invitation?.invStatus || undefined;
 
-  if (!status) {
-    btn = "btn btn-success";
-    text = "Invite";
-  } else if (status === "Pending" || status === "Accepted") {
+  if (status === "Pending") {
     btn = "btn btn-danger";
     text = "Revoke";
-  } else if (status === "Declined" || status === "Canceled") {
+  } else if (status === "Declined" || status === "Canceled" || !status) {
     btn = "btn btn-success";
     text = "Invite";
   }

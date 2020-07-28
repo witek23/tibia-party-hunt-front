@@ -16,6 +16,16 @@ export async function getPartyByUser(userId) {
   return (parties && parties.filter((p) => p.ownerId === userId)) || [];
 }
 
+export function updateParty(party) {
+  return http.put(apiUrl + "/" + party._id, {
+    members: [...party.members],
+    hunts: [...party.hunts],
+    name: party.name,
+    ownerId: party.ownerId,
+    partyLeaderId: party.partyLeaderId,
+  });
+}
+
 export function createParty(party) {
   return http.post(apiUrl, {
     name: party.name,
@@ -30,5 +40,6 @@ export default {
   getParty: getParty,
   getParties: getParties,
   getPartyByUser: getPartyByUser,
+  updateParty: updateParty,
   createParty: createParty,
 };

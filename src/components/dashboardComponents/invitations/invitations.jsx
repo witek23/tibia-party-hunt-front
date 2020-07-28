@@ -76,8 +76,17 @@ class Invitations extends Component {
       await invService.updateStatus(invItem._id, status);
       const invitations = [...this.state.invitations];
       invitations.forEach((c) => {
-        if (c._id === invItem._id) c.status = status;
+        if (c._id === invItem._id) {
+          c.status = status;
+        }
       });
+
+      if (status === "Accepted") {
+        const party = invItem.party;
+        party.members = [...party.members, invItem.invitedChar._id];
+
+        await partyService.updateParty(party);
+      }
 
       this.setState({ invitations });
       return;

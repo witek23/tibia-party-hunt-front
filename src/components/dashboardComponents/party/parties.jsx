@@ -4,6 +4,7 @@ import partyService from "../../../services/partyService";
 import characterService from "../../../services/characterService";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import _ from "lodash";
 
 const Parties = () => {
   const [myParties, setMyParties] = useState([]);
@@ -18,15 +19,25 @@ const Parties = () => {
 
       const joinedParties = [];
       parties.forEach((p) => {
-        console.log(p);
         p.members.forEach((pm) => {
           myCharacters.forEach((c) => {
-            if (c._id === pm._id) joinedParties.push(p);
+            if (c._id === pm) joinedParties.push(p);
           });
         });
       });
 
-      console.log(joinedParties);
+      _.map(joinedParties, function (o, i) {
+        var eq = _.find(myParties, function (e, ind) {
+          if (i > ind) {
+            return _.isEqual(e, o);
+          }
+        });
+        if (!eq) {
+          joinedParties.splice(i, 1);
+          return o;
+        }
+      });
+
       setJoinedParties(joinedParties);
       setMyParties(myParties);
     };
@@ -35,7 +46,7 @@ const Parties = () => {
   }, []);
 
   return (
-    <div className="content-container">
+    <div>
       <h2 className="">Parties</h2>
       <div className="row">
         {myParties.length > 0 &&
@@ -89,7 +100,7 @@ const Parties = () => {
                 className="text-decoration-none text-muted"
                 to={"/dashboard/parties/add-party"}
               >
-                Add Party
+                Create Party
               </Link>
             </Card.Text>
           </Card.Body>

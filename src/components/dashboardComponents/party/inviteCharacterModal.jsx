@@ -29,13 +29,14 @@ const InviteCharacterModal = ({ party }) => {
           invitableChars.splice(i, 1);
       }
 
-      invitableChars.forEach((c) => {
+      for (const [index, ic] of invitableChars.entries()) {
         invitations.forEach((i) => {
-          if (c._id === i.invitedCharId) {
-            c.invitation = i;
-          }
+          if (ic._id === i.invitedCharId)
+            if (i.invStatus === "Accepted") {
+              invitableChars.splice(index, 1);
+            } else ic.invitation = i;
         });
-      });
+      }
 
       setUser(authService.getCurrentUser());
       setInvitableChars(invitableChars);
