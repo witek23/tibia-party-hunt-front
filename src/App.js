@@ -24,6 +24,7 @@ import NotFound from "./components/notFound";
 import Parties from "./components/dashboardComponents/party/parties";
 import Party from "./components/dashboardComponents/party/party";
 import AddParty from "./components/dashboardComponents/party/addParty";
+import SignUp from "./components/signUp";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <EmptyLayout._Route path="/logout" component={Logout} />
         <EmptyLayout._Route path="/login" component={Login} />
 
+        <DefaultLayout._Route path="/sign-up" component={SignUp} />
         <DefaultLayout._Route path="/home" component={Home} />
 
         <ProtectedRoute

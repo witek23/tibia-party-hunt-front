@@ -4,21 +4,15 @@ const InvitationButton = ({ character, onClick }) => {
   let btn = "";
   let text = "";
 
-  const characterInvitation = character.invitation;
+  const status = character?.invitation?.invStatus || undefined;
 
-  if (!characterInvitation.invStatus) {
+  if (!status) {
     btn = "btn btn-success";
     text = "Invite";
-  } else if (
-    characterInvitation.invStatus === "Pending" ||
-    characterInvitation.invStatus === "Accepted"
-  ) {
+  } else if (status === "Pending" || status === "Accepted") {
     btn = "btn btn-danger";
     text = "Revoke";
-  } else if (
-    characterInvitation.invStatus === "Declined" ||
-    characterInvitation.invStatus === "Canceled"
-  ) {
+  } else if (status === "Declined" || status === "Canceled") {
     btn = "btn btn-success";
     text = "Invite";
   }

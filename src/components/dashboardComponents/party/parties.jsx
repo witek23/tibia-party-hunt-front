@@ -15,10 +15,19 @@ const Parties = () => {
       const { data: parties } = await partyService.getParties();
       const myParties = parties.filter((p) => p.ownerId === userId);
       const myCharacters = await characterService.getCharactersByUser(userId);
-      const joinedParties = parties.filter((p) => {
-        //   myCharacters.any();
+
+      const joinedParties = [];
+      parties.forEach((p) => {
+        console.log(p);
+        p.members.forEach((pm) => {
+          myCharacters.forEach((c) => {
+            if (c._id === pm._id) joinedParties.push(p);
+          });
+        });
       });
 
+      console.log(joinedParties);
+      setJoinedParties(joinedParties);
       setMyParties(myParties);
     };
 
@@ -44,6 +53,28 @@ const Parties = () => {
                     to={"/dashboard/parties/" + p._id}
                   >
                     {p.name}
+                  </Link>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          ))}
+      </div>
+      <div className="row">
+        {joinedParties.length > 0 &&
+          joinedParties.map((j) => (
+            <Card
+              key={j._id}
+              className="box-shadow mr-3 text-center"
+              style={{ width: "15rem" }}
+            >
+              <Card.Body>
+                <Card.Text>
+                  <Link
+                    className="text-decoration-none"
+                    style={{ color: "#000" }}
+                    to={"/dashboard/parties/" + j._id}
+                  >
+                    {j.name}
                   </Link>
                 </Card.Text>
               </Card.Body>

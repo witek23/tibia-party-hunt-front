@@ -55,6 +55,9 @@ const Navigation = () => {
             <NavItem className="nav-link" as={NavLink} to="/login">
               Sign In
             </NavItem>
+            <NavItem className="nav-link" as={NavLink} to="/sign-up">
+              Sign Up
+            </NavItem>
             <NavItem className="nav-link" as={NavLink} to="/contact-us">
               Contact Us
             </NavItem>

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import InvitationButton from "../../party/invitationButton";
+import InvitationButton from "./invitationButton";
 import partyInvitationService from "../../../services/partyInvitationService";
 import characterService from "../../../services/characterService";
 import invitationsService from "../../../services/partyInvitationService";
+import authService from "../../../services/authService";
 
-const InviteCharacterModal = ({ party, user }) => {
+const InviteCharacterModal = ({ party }) => {
   const [invitableChars, setInvitableChars] = useState([]);
   const [show, setShow] = useState(false);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,8 +29,6 @@ const InviteCharacterModal = ({ party, user }) => {
           invitableChars.splice(i, 1);
       }
 
-      console.log(invitations);
-
       invitableChars.forEach((c) => {
         invitations.forEach((i) => {
           if (c._id === i.invitedCharId) {
@@ -37,6 +37,7 @@ const InviteCharacterModal = ({ party, user }) => {
         });
       });
 
+      setUser(authService.getCurrentUser());
       setInvitableChars(invitableChars);
     };
 
@@ -47,7 +48,7 @@ const InviteCharacterModal = ({ party, user }) => {
   const handleShow = () => setShow(true);
 
   const handleClick = async (char) => {
-    if (!char.invitation.invStatus) {
+    if (!char.invitation) {
       const partyInvitation = {
         invOwner: user._id,
         partyId: party._id,
@@ -126,7 +127,7 @@ const InviteCharacterModal = ({ party, user }) => {
                       <td key={c.name}>{c.name}</td>
                       <td key={c.vocation}>{c.vocation}</td>
                       <td key={c._id + " invitation"}>
-                        {c.invitation.invStatus || ""}
+                        {c?.invitation?.invStatus || ""}
                       </td>
                       <td>
                         <InvitationButton
