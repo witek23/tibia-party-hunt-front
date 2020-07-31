@@ -30,8 +30,8 @@ const Dashboard = () => {
 
   return (
     <>
-      <h2 className="p-5">Dashboard</h2>
-      <div className="container-liquid m-5">
+      <h2>Dashboard</h2>
+      <div className="container-liquid">
         <div className="row">
           <Card className="box-shadow mr-3" style={{ width: "auto" }}>
             <Card.Body>

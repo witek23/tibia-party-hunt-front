@@ -20,8 +20,8 @@ const Characters = () => {
 
   return (
     <>
-      <h3 className="m-5">Characters</h3>
-      <div className="row m-5">
+      <h3>Characters</h3>
+      <div className="row">
         {characters.length > 0 &&
           characters.map((c) => (
             <Card
@@ -43,7 +43,7 @@ const Characters = () => {
             </Card>
           ))}
       </div>
-      <div className="row m-5">
+      <div className="row">
         <Card className="box-shadow mr-3 text-center">
           <Card.Body>
             <Card.Text>

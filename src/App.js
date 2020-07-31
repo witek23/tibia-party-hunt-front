@@ -24,6 +24,7 @@ import Parties from "./components/dashboardComponents/party/parties";
 import Party from "./components/dashboardComponents/party/party";
 import AddParty from "./components/dashboardComponents/party/addParty";
 import SignUp from "./components/signUp";
+import Spawns from "./components/dashboardComponents/spawns/spawns";
 
 function App() {
   return (
@@ -32,8 +33,6 @@ function App() {
       <Switch>
         <Redirect path="/" exact to="/home" />
 
-        <DashboardLayout._Route path="/hunts" component={Hunts} />
-
         <EmptyLayout._Route path="/not-found" component={NotFound} />
         <EmptyLayout._Route path="/logout" component={Logout} />
         <EmptyLayout._Route path="/login" component={Login} />
@@ -41,6 +40,11 @@ function App() {
         <DefaultLayout._Route path="/sign-up" component={SignUp} />
         <DefaultLayout._Route path="/home" component={Home} />
 
+        <ProtectedRoute
+          path="/dashboard/spawns"
+          layout={DashboardLayout.Layout}
+          component={Spawns}
+        />
         <ProtectedRoute
           path="/dashboard/hunts/:partyId"
           layout={DashboardLayout.Layout}
