@@ -32,7 +32,6 @@ const Character = (props) => {
           props.match.params.id
         );
 
-        party.members = [...party.members, party.partyLeaderId];
         const members = [];
         for await (const m of party.members) {
           const { data: char } = await characterService.getCharacter(m);
@@ -46,7 +45,8 @@ const Character = (props) => {
 
         setTeamHuntingData(hunts);
       } catch (ex) {
-        if (ex.response.status === 404) setError("not found");
+        console.log(ex.response);
+        if (ex.response && ex.response.status === 404) setError("not found");
       }
       setLoading(false);
     };
@@ -54,21 +54,36 @@ const Character = (props) => {
     fetchData();
   }, [props.match.params.id]);
 
-  const setTeamHuntingData = (data) => {
-    const stats = {
-      balance: 0,
-      loot: 0,
-      supplies: 0,
-      hunts: data.count,
+  const setTeamHuntingData = (hunts) => {
+    const data = {
+      total: {
+        balance: 0,
+        loot: 0,
+        supplies: 0,
+        hunts: hunts.length,
+      },
+      pending: {
+        balance: 0,
+        loot: 0,
+        supplies: 0,
+        hunts: 0,
+      },
     };
 
-    data.forEach((d) => {
-      stats.balance += d.balance;
-      stats.loot += d.loot;
-      stats.supplies += d.supplies;
+    hunts.forEach((h) => {
+      data.total.balance += h.balance;
+      data.total.loot += h.loot;
+      data.total.supplies += h.supplies;
+
+      if (h.paymentStatus === "Pending") {
+        data.pending.balance += h.balance;
+        data.pending.loot += h.balance;
+        data.pending.supplies += h.supplies;
+        data.pending.hunts += 1;
+      }
     });
 
-    setHuntingData(stats);
+    setHuntingData(data);
   };
 
   if (!loading && error === "not found") return <Redirect to={"/not-found"} />;
@@ -85,11 +100,30 @@ const Character = (props) => {
             <Link to={"/dashboard/hunts/" + party._id} className="btn btn-info">
               Check Hunts
             </Link>
-            {hunts.length > 0 && (
+            {huntingData.total.hunts > 0 && (
               <>
-                <ul>
-                  <li>{huntingData.balance}</li>
-                </ul>
+                <div>
+                  Total Hunts Stats
+                  <ul>
+                    <li>{huntingData.total.balance}</li>
+                    <li>{huntingData.total.supplies}</li>
+                    <li>{huntingData.total.loot}</li>
+                  </ul>
+                </div>
+                <div>
+                  {huntingData.pending.hunts === 0 && (
+                    <div>There are no pending hunts.</div>
+                  )}
+                  {huntingData.pending.hunts > 0 && (
+                    <div>
+                      <ul>
+                        <li>{huntingData.pending.balance}</li>
+                        <li>{huntingData.pending.supplies}</li>
+                        <li>{huntingData.pending.loot}</li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </>
             )}
           </div>

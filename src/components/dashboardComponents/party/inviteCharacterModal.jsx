@@ -13,20 +13,19 @@ const InviteCharacterModal = ({ party }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: characters } = await characterService.getCharacters();
       const {
         data: invitations,
       } = await invitationsService.getPartyInivitations();
+      const { data: characters } = await characterService.getCharacters();
+
       const { world } = characters.find((c) => c._id === party.partyLeaderId);
-
-      const invitableChars = characters.filter((c) => c.world === world);
-      for (let i = 0; i < invitableChars.length; i++) {
-        party.members.forEach((p) => {
-          if (invitableChars[i]._id === p._id) invitableChars.splice(i, 1);
-        });
-
-        if (invitableChars[i]._id === party.partyLeaderId)
-          invitableChars.splice(i, 1);
+      const invitableChars = [];
+      for (let i = 0; i < characters.length; i++) {
+        if (
+          !isPartyMember(characters[i], party.members) &&
+          characters[i].world === world
+        )
+          invitableChars.push(characters[i]);
       }
 
       for (const [index, ic] of invitableChars.entries()) {
@@ -40,6 +39,13 @@ const InviteCharacterModal = ({ party }) => {
 
       setUser(authService.getCurrentUser());
       setInvitableChars(invitableChars);
+    };
+
+    const isPartyMember = (char, party) => {
+      for (let i = 0; i < party.length; i++) {
+        if (party[i]._id === char._id) return true;
+      }
+      return false;
     };
 
     fetchData();

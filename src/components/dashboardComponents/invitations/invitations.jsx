@@ -42,11 +42,10 @@ class Invitations extends Component {
     });
 
     const invitations = [];
-    for await (let inv of myInvs) {
+    for await (const inv of myInvs) {
       const { data: invOwner } = await userService.getUser(inv.invOwner);
       const party = parties.find((p) => p._id === inv.partyId);
       const invitedChar = myChars.find((c) => c._id === inv.invitedCharId);
-
       let invItem = {
         _id: inv._id,
         owner: invOwner,
@@ -56,7 +55,6 @@ class Invitations extends Component {
       };
       invitations.push(invItem);
     }
-
     this.setState({ invitations });
   };
 
@@ -109,7 +107,6 @@ class Invitations extends Component {
                   <div className="alert alert-success" role="alert">
                     <h4 className="alert-heading">Invs</h4>
                     <p>There are no invitations yet.</p>
-                    <p className="mb-0">lul</p>
                   </div>
                 )}
                 {invitations.length > 0 && (

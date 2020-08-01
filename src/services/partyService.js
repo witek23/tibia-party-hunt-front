@@ -19,7 +19,6 @@ export async function getPartyByUser(userId) {
 export function updateParty(party) {
   return http.put(apiUrl + "/" + party._id, {
     members: [...party.members],
-    hunts: [...party.hunts],
     name: party.name,
     ownerId: party.ownerId,
     partyLeaderId: party.partyLeaderId,
@@ -32,7 +31,6 @@ export function createParty(party) {
     ownerId: party.ownerId,
     partyLeaderId: party.partyLeaderId,
     members: party.members,
-    hunts: party.hunts,
   });
 }
 

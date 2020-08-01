@@ -21,7 +21,7 @@ const Parties = () => {
       parties.forEach((p) => {
         p.members.forEach((pm) => {
           myCharacters.forEach((c) => {
-            if (c._id === pm) joinedParties.push(p);
+            if (c._id === pm && p.ownerId !== userId) joinedParties.push(p);
           });
         });
       });

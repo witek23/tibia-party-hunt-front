@@ -80,6 +80,7 @@ const AddParty = () => {
       const { data: pt } = await partyService.createParty(party);
       history.push("/dashboard/parties/" + pt._id);
     } catch (ex) {
+      console.log(ex.response);
       if (ex.response && ex.response.status === 400) {
         const { data } = ex.response;
         const key = Object.keys(data)[0];
