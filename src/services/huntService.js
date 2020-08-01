@@ -14,7 +14,7 @@ export function getHuntById(id) {
 export async function getHuntsByParty(partyId) {
   try {
     const { data: hunts } = await http.get(apiUrl);
-    return hunts.filter((h) => h.partyId === partyId);
+    return hunts.filter((h) => h.partyId === partyId) || [];
   } catch (ex) {
     console.log("EX SERWIS", ex);
   }

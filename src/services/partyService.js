@@ -13,7 +13,7 @@ export function getParty(id) {
 
 export async function getPartyByUser(userId) {
   const { data: parties } = await http.get(apiUrl);
-  return (parties && parties.filter((p) => p.ownerId === userId)) || [];
+  return parties.filter((p) => p.ownerId === userId) || [];
 }
 
 export function updateParty(party) {

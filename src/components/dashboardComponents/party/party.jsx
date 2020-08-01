@@ -116,6 +116,7 @@ const Character = (props) => {
                   )}
                   {huntingData.pending.hunts > 0 && (
                     <div>
+                      Pending payouts for hunts
                       <ul>
                         <li>{huntingData.pending.balance}</li>
                         <li>{huntingData.pending.supplies}</li>
@@ -125,6 +126,9 @@ const Character = (props) => {
                   )}
                 </div>
               </>
+            )}
+            {huntingData.total.hunts === 0 && (
+              <div>There are no recoreded hunts yet.</div>
             )}
           </div>
         )}

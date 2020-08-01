@@ -25,6 +25,7 @@ import Party from "./components/dashboardComponents/party/party";
 import AddParty from "./components/dashboardComponents/party/addParty";
 import SignUp from "./components/signUp";
 import Spawns from "./components/dashboardComponents/spawns/spawns";
+import Payout from "./components/dashboardComponents/payout/payout";
 
 function App() {
   return (
@@ -40,6 +41,11 @@ function App() {
         <DefaultLayout._Route path="/sign-up" component={SignUp} />
         <DefaultLayout._Route path="/home" component={Home} />
 
+        <ProtectedRoute
+          path="/dashboard/payout"
+          layout={DashboardLayout.Layout}
+          component={Payout}
+        />
         <ProtectedRoute
           path="/dashboard/spawns"
           layout={DashboardLayout.Layout}
