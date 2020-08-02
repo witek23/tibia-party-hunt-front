@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
 import partyService from "../../../services/partyService";
-//import authService from "../../../services/authService";
 import huntService from "../../../services/huntService";
 import characterService from "../../../services/characterService";
 import InviteCharacterModal from "./inviteCharacterModal";
@@ -20,7 +19,6 @@ const columns = [
 
 const Character = (props) => {
   const [party, setParty] = useState({});
-  const [hunts, setHunts] = useState([]);
   const [huntingData, setHuntingData] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -41,8 +39,6 @@ const Character = (props) => {
         setParty(party);
 
         const hunts = await huntService.getHuntsByParty(party._id);
-        setHunts(hunts);
-
         setTeamHuntingData(hunts);
       } catch (ex) {
         console.log(ex.response);
@@ -98,7 +94,7 @@ const Character = (props) => {
             <InviteCharacterModal party={party} />
             <Table columns={columns} data={party.members} />
             <Link to={"/dashboard/hunts/" + party._id} className="btn btn-info">
-              Check Hunts
+              Manage Hunts
             </Link>
             {huntingData.total.hunts > 0 && (
               <>

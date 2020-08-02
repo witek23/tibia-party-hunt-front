@@ -77,7 +77,7 @@ class Payout extends Component {
     const { hunts, parties, showResults } = this.state;
     return (
       <div>
-        <h2>Payout Time</h2>
+        <h2>Payout</h2>
 
         {parties.length > 0 && (
           <>
@@ -89,18 +89,28 @@ class Payout extends Component {
             />
             {hunts.length > 0 && (
               <>
-                <PayoutTable
-                  hunts={hunts}
-                  onClick={(h) => this.setIncludeHunt(h)}
-                />
-                <button className="btn btn-info" onClick={this.displayResults}>
-                  Display Results
-                </button>
-                {showResults && (
-                  <PayoutResults
+                <div className="mt-3">
+                  <PayoutTable
                     hunts={hunts}
-                    onClick={(p) => this.submitData(p)}
+                    onClick={(h) => this.setIncludeHunt(h)}
                   />
+                </div>
+                <div className="mt-3">
+                  <button
+                    className="btn btn-info"
+                    onClick={this.displayResults}
+                  >
+                    Display Results
+                  </button>
+                </div>
+
+                {showResults && (
+                  <div className="mt-3">
+                    <PayoutResults
+                      hunts={hunts}
+                      onClick={(p) => this.submitData(p)}
+                    />
+                  </div>
                 )}
               </>
             )}

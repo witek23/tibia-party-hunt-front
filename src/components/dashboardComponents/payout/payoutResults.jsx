@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Card from "./styling/card";
 
 class PayoutResults extends Component {
   state = {
@@ -22,10 +23,16 @@ class PayoutResults extends Component {
     data.forEach((d) => {
       d.members.forEach((m) => {
         if (!ptMembers.some((p) => p.name === m.name)) {
-          ptMembers.push({ name: m.name, payout: m.huntPayout, hunt: [d] });
+          ptMembers.push({
+            name: m.name,
+            payout: m.huntPayout,
+            supplies: m.supplies,
+            hunt: [d],
+          });
         } else {
           for (const pt of ptMembers) {
             if (pt.name === m.name) {
+              pt.supplies += m.supplies;
               pt.payout += m.huntPayout;
               pt.hunt.push(d);
             }
@@ -42,21 +49,26 @@ class PayoutResults extends Component {
     return (
       <>
         {payouts.length > 0 && (
-          <>
-            <ul>
+          <div className="container-liquid">
+            <div className="d-flex justify-content-center">
               {payouts.map((p) => (
-                <li key={p.name}>
-                  {p.name}: {p.payout}
-                </li>
+                <Card
+                  key={p.name}
+                  title={p.name}
+                  supplies={p.supplies}
+                  payout={p.payout}
+                />
               ))}
-            </ul>
-            <button
-              className="btn btn-info"
-              onClick={() => this.props.onClick(payouts)}
-            >
-              Submit Data
-            </button>
-          </>
+            </div>
+            <div className="mt-3 d-flex justify-content-center">
+              <button
+                className="btn btn-info"
+                onClick={() => this.props.onClick(payouts)}
+              >
+                Submit Data
+              </button>
+            </div>
+          </div>
         )}
       </>
     );

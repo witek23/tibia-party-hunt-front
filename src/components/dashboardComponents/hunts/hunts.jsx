@@ -3,7 +3,7 @@ import partyService from "../../../services/partyService";
 import characterService from "../../../services/characterService";
 import spawnService from "../../../services/spawnService";
 import huntService from "../../../services/huntService";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import AddHunt from "./addHunt";
 
 const Hunts = (props) => {
@@ -80,13 +80,17 @@ const Hunts = (props) => {
     }
   };
 
+  const isAnyPaymentPending = (hunts) => {
+    return hunts.find((h) => h.paymentStatus === "Pending");
+  };
+
   const getHuntStatus = (hunt) => {
     const status = hunt.balance > 0 ? "Profit: " : "Waste: ";
     const value =
       hunt.balance > 1000000
-        ? (hunt.balance / 1000000).toFixed(2) + "kk"
+        ? (hunt.balance / 1000000).toFixed(1) + "kk"
         : hunt.balance > 1000
-        ? (hunt.balance / 1000).toFixed(2) + "k"
+        ? (hunt.balance / 1000).toFixed(1) + "k"
         : hunt.balance;
 
     return status + value;
@@ -127,6 +131,11 @@ const Hunts = (props) => {
                 ))}
             </tbody>
           </table>
+          {isAnyPaymentPending(hunts) && (
+            <Link to={"/dashboard/payout"} className="btn btn-info">
+              Proceed To Payout
+            </Link>
+          )}
         </React.Fragment>
       )}
     </>

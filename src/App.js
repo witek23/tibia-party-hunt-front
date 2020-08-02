@@ -26,17 +26,17 @@ import AddParty from "./components/dashboardComponents/party/addParty";
 import SignUp from "./components/signUp";
 import Spawns from "./components/dashboardComponents/spawns/spawns";
 import Payout from "./components/dashboardComponents/payout/payout";
+import WelcomePage from "./components/emptyComponents/welcome/welcomePage";
 
 function App() {
   return (
     <React.Fragment>
       <ToastContainer />
       <Switch>
-        <Redirect path="/" exact to="/home" />
-
         <EmptyLayout._Route path="/not-found" component={NotFound} />
         <EmptyLayout._Route path="/logout" component={Logout} />
         <EmptyLayout._Route path="/login" component={Login} />
+        <EmptyLayout._Route path="/" exact component={WelcomePage} />
 
         <DefaultLayout._Route path="/sign-up" component={SignUp} />
         <DefaultLayout._Route path="/home" component={Home} />
