@@ -1,0 +1,14 @@
+.main {
+  background-image: url("./img/MainPagePhoto.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  width: 100vw;
+  height: 100vh;
+}
+
+@media (min-width: 1500px) {
+  .main {
+    background-image: url("./img/MainImageWide.png");
+  }
+}
