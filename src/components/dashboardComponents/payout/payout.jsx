@@ -1,92 +1,114 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import authService from "../../../services/authService";
 import partyService from "../../../services/partyService";
 import huntService from "../../../services/huntService";
 import Select from "../../common/select";
-import Check from "../../common/check";
+import PayoutTable from "./payoutTable";
+import PayoutResults from "./payoutResults";
 
-const Payout = () => {
-  const [parties, setParties] = useState([]);
-  const [hunts, setHunts] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const user = authService.getCurrentUser();
-      const parties = await partyService.getPartyByUser(user._id);
-
-      setParties(parties);
-    };
-
-    fetchData();
-  }, []);
-
-  const changeParty = async (e) => {
-    const { value } = e.target;
-    const party = parties.filter((p) => p._id === value)[0];
-    const partyHunts = await huntService.getHuntsByParty(party._id);
-    partyHunts.forEach((p) => {
-      p.includeInPayout = true;
-    });
-
-    setHunts(partyHunts);
+class Payout extends Component {
+  state = {
+    parties: [],
+    hunts: [],
+    user: [],
+    currentPartyId: "",
+    showResults: false,
   };
 
-  const setIncludeHunt = (hunt) => {
-    console.log("LUUUUL");
-    const huntsCopy = hunts;
+  componentDidMount = async () => {
+    const user = authService.getCurrentUser();
+    this.populateParties(user._id);
+  };
+
+  populateParties = async (userId) => {
+    const parties = await partyService.getPartyByUser(userId);
+    this.setState({ parties });
+  };
+
+  populateHunts = async (partyId) => {
+    const huntData = await huntService.getHuntsByParty(partyId);
+    const hunts = huntData.filter((p) => p.paymentStatus === "Pending");
+    hunts.forEach((p) => {
+      p.includeInPayout = true;
+    });
+    this.setState({ hunts });
+  };
+
+  changeParty = async (e) => {
+    const { value } = e.target;
+    const party = this.state.parties.filter((p) => p._id === value)[0];
+    this.populateHunts(party._id);
+
+    this.setState({ currentPartyId: party._id });
+    this.setState({ showResults: false });
+  };
+
+  setIncludeHunt = (hunt) => {
+    const huntsCopy = this.state.hunts;
     huntsCopy.forEach((h) => {
       if (h._id === hunt._id) h.includeInPayout = !h.includeInPayout;
     });
 
-    setHunts(huntsCopy);
+    this.setState({ hunts: huntsCopy });
+    this.setState({ showResults: false });
   };
 
-  console.log(hunts);
-  return (
-    <div>
-      <h2>Payout Time</h2>
+  submitData = async (data) => {
+    for await (let d of data) {
+      for await (let h of d.hunt) {
+        delete h.includeInPayout;
+        try {
+          h.paymentStatus = "Finished";
+          await huntService.updatePaymentStatus(h);
+        } catch (ex) {
+          console.log(ex.response && ex.response);
+        }
+      }
+    }
 
-      {parties.length > 0 && (
-        <>
-          <Select
-            name="party"
-            title="Chose party"
-            options={parties}
-            onChange={changeParty}
-          />
-          {hunts.length > 0 && (
-            <table className="table">
-              <thead>
-                <tr>
-                  <td>ID</td>
-                  <td>Balance</td>
-                  <td>Supplies</td>
-                  <td>Loot</td>
-                  <td>Include</td>
-                </tr>
-              </thead>
-              <tbody>
-                {hunts.map((h, index) => (
-                  <tr key={h._id}>
-                    <td key={index}>{index + 1}</td>
-                    <td key={h.balance}>{h.balance}</td>
-                    <td key={h.supplies}>{h.supplies}</td>
-                    <td key={h.loot}>{h.loot}</td>
-                    <td key={index + "check"}>
-                      <Check
-                        option={h.includeInPayout}
-                        onClick={() => setIncludeHunt(h)}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </>
-      )}
-    </div>
-  );
-};
+    this.props.history.push("/dashboard/parties/" + this.state.currentPartyId);
+  };
+
+  displayResults = () => {
+    this.setState({ showResults: true });
+  };
+
+  render() {
+    const { hunts, parties, showResults } = this.state;
+    return (
+      <div>
+        <h2>Payout Time</h2>
+
+        {parties.length > 0 && (
+          <>
+            <Select
+              name="party"
+              title="Chose party"
+              options={parties}
+              onChange={this.changeParty}
+            />
+            {hunts.length > 0 && (
+              <>
+                <PayoutTable
+                  hunts={hunts}
+                  onClick={(h) => this.setIncludeHunt(h)}
+                />
+                <button className="btn btn-info" onClick={this.displayResults}>
+                  Display Results
+                </button>
+                {showResults && (
+                  <PayoutResults
+                    hunts={hunts}
+                    onClick={(p) => this.submitData(p)}
+                  />
+                )}
+              </>
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
+}
 
 export default Payout;
