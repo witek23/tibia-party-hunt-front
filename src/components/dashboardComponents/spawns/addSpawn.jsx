@@ -47,7 +47,6 @@ const AddSpawn = () => {
     }
 
     try {
-      console.log("lol");
       await spawnService.addSpawn(spawn);
       alert("spawn Added");
     } catch (ex) {
