@@ -27,6 +27,7 @@ import SignUp from "./components/signUp";
 import Spawns from "./components/dashboardComponents/spawns/spawns";
 import Payout from "./components/dashboardComponents/payout/payout";
 import WelcomePage from "./components/emptyComponents/welcome/welcomePage";
+import AddSpawn from "./components/dashboardComponents/spawns/addSpawn";
 
 function App() {
   return (
@@ -41,6 +42,11 @@ function App() {
         <DefaultLayout._Route path="/sign-up" component={SignUp} />
         <DefaultLayout._Route path="/home" component={Home} />
 
+        <ProtectedRoute
+          path="/dashboard/add-spawn"
+          layout={DashboardLayout.Layout}
+          component={AddSpawn}
+        />
         <ProtectedRoute
           path="/dashboard/payout"
           layout={DashboardLayout.Layout}
