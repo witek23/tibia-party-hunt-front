@@ -1,6 +1,6 @@
 import http from "./httpService";
 
-const apiUrl = +"/partyInvitations";
+const apiUrl = "/partyInvitations";
 
 export function getPartyInivitations() {
   return http.get(apiUrl);
