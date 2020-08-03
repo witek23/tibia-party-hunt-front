@@ -1,34 +1,41 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import "./sidebar.css";
 
-const paths = [
+const columns = [
   { label: "Dashboard", path: "/dashboard" },
   { label: "Characters", path: "/dashboard/characters" },
   { label: "Parties", path: "/dashboard/parties" },
-  { label: "Hunts", path: "/hunts" },
   { label: "Home", path: "/home" },
 ];
 
-let active = "/dashboard";
-
-const Sidebar = () => {
-  const handleActive = (_path) => {
-    active = _path;
+class Sidebar extends Component {
+  state = {
+    activeLink: "",
+    paths: columns,
   };
 
-  return (
-    <>
+  componentDidMount = () => {
+    this.setState({ activeLink: window.location.pathname });
+  };
+
+  handleActive = (path) => {
+    this.setState({ activeLink: path });
+  };
+
+  render() {
+    const { paths, activeLink } = this.state;
+    return (
       <Nav defaultActiveKey="/home" className="sidebar-wrapper flex-column">
         <Nav.Item className="sidebar-brand">Party Stats</Nav.Item>
         {paths.map((p) => (
           <Nav.Link
             className={
-              p.path === active ? "sidebar-item-active" : "sidebar-item"
+              p.path === activeLink ? "sidebar-item-active" : "sidebar-item"
             }
             key={p.path}
-            onClick={() => handleActive(p.path)}
+            onClick={() => this.handleActive(p.path)}
             as={Link}
             to={p.path}
           >
@@ -36,8 +43,8 @@ const Sidebar = () => {
           </Nav.Link>
         ))}
       </Nav>
-    </>
-  );
-};
+    );
+  }
+}
 
 export default Sidebar;

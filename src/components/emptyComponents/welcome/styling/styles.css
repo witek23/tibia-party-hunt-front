@@ -1,11 +1,9 @@
-@import url("https://fonts.google.com/specimen/Roboto?query=robot");
-
 body {
   font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 
 .main {
-  background-image: url("./img/MainPagePhoto.png");
+  background-image: url("../img/MainPagePhoto.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -57,13 +55,14 @@ body {
 
 .button:hover {
   text-decoration: none;
-  color: #c1d602;
+  color: #333;
   border: 2px solid #c1d602;
+  background-color: #82aa24;
 }
 
 @media (min-width: 1500px) {
   .main {
-    background-image: url("./img/MainImageWide.png");
+    background-image: url("../img/MainImageWide.png");
   }
 }
 

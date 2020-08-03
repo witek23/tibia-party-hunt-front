@@ -4,7 +4,6 @@ import { Card } from "react-bootstrap";
 import partyInvsService from "../../../services/partyInvitationService";
 import authService from "../../../services/authService";
 import characterService from "../../../services/characterService";
-
 import "./dashboard.css";
 
 const Dashboard = () => {
@@ -62,6 +61,7 @@ const Dashboard = () => {
                 <Link
                   className="text-decoration-none"
                   to={"/dashboard/characters"}
+                  style={{ color: "#000" }}
                 >
                   <strong>here</strong>
                 </Link>

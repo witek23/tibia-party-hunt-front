@@ -1,7 +1,6 @@
 import http from "./httpService";
-import { apiEndpoint } from "../config.json";
 
-const apiUrl = apiEndpoint + "/characters";
+const apiUrl = "/characters";
 
 export function getCharacters() {
   return http.get(apiUrl);

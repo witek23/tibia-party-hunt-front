@@ -29,9 +29,6 @@ const Navigation = () => {
           <NavItem className="nav-link" as={NavLink} to="/home">
             Home
           </NavItem>
-          <NavItem className="nav-link" as={Link} to="/">
-            Pricing
-          </NavItem>
         </Nav>
         {user.name && (
           <Nav>

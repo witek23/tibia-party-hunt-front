@@ -96,6 +96,7 @@ function App() {
           layout={DashboardLayout.Layout}
           component={Dashboard}
         />
+        <Redirect to={"/not-found"} />
       </Switch>
     </React.Fragment>
   );

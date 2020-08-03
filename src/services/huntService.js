@@ -1,7 +1,6 @@
 import http from "./httpService";
-import { apiEndpoint } from "../config.json";
 
-const apiUrl = apiEndpoint + "/hunts";
+const apiUrl = "/hunts";
 
 export function getHunts() {
   return http.get(apiUrl);

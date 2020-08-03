@@ -1,7 +1,6 @@
 import http from "./httpService";
-import { apiEndpoint } from "../config.json";
 
-const apiUrl = apiEndpoint + "/parties";
+const apiUrl = "/parties";
 
 export function getParties() {
   return http.get(apiUrl);

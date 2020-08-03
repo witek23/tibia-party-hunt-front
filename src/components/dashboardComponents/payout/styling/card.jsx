@@ -1,7 +1,7 @@
 import React from "react";
 import { convertGoldValue } from "../../../../utils/convertGoldValue";
 
-const Card = ({ title, supplies, payout, ...rest }) => {
+const Card = ({ title, supplies, payout }) => {
   const copyToClipboard = (e) => {
     const { value } = e.target;
 

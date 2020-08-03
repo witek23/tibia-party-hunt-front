@@ -44,7 +44,7 @@ const Login = () => {
 
     try {
       await auth.login(user.email, user.password);
-      window.location = "/";
+      window.location = "/home";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const { data } = ex.response;
@@ -56,7 +56,7 @@ const Login = () => {
     }
   };
 
-  if (auth.getCurrentUser()) window.location = "/my-account";
+  if (auth.getCurrentUser()) window.location = "/home";
 
   return (
     <div className="container my-5">
