@@ -3,18 +3,8 @@ import { Route } from "react-router-dom";
 import Sidebar from "../../navigation/sidebar/sidebar";
 import "./dashboard.css";
 
-const Layout = ({ children }) => {
+export const Layout = ({ children }) => {
   return (
-    // <Container fluid>
-    //   <Row>
-    //     <Col xs={2} id="sidebar-wrapper">
-    //       <Sidebar />
-    //     </Col>
-    //     <Col xs={10} id="page-content-wrapper">
-    //       {children}
-    //     </Col>
-    //   </Row>
-    // </Container>
     <div className="dashboard-wrapper">
       <div className="sidebar-container">
         <Sidebar />
@@ -24,7 +14,7 @@ const Layout = ({ children }) => {
   );
 };
 
-const _Route = ({ component: Component, ...rest }) => {
+export const _Route = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -35,9 +25,4 @@ const _Route = ({ component: Component, ...rest }) => {
       )}
     />
   );
-};
-
-export default {
-  _Route: _Route,
-  Layout: Layout,
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import Navbar from "../../navigation/navbar/navbar";
 
-const Layout = ({ children }) => {
+export const Layout = ({ children }) => {
   return (
     <>
       <Navbar />
@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
   );
 };
 
-const _Route = ({ component: Component, ...rest }) => {
+export const _Route = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -22,9 +22,4 @@ const _Route = ({ component: Component, ...rest }) => {
       )}
     />
   );
-};
-
-export default {
-  Layout: Layout,
-  _Route: _Route,
 };

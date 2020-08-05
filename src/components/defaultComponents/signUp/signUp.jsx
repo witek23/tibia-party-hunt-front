@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Input from "./common/input";
-import Button from "./common/button";
+import Input from "../../common/input";
+import Button from "../../common/button";
 import { Link } from "react-router-dom";
 import Joi from "joi-browser";
-import authService from "../services/authService";
-import * as userService from "../services/userService";
+import authService from "../../../services/authService";
+import * as userService from "../../../services/userService";
 
 const initialValues = {
   email: "",

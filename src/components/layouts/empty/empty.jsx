@@ -1,11 +1,11 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-const Layout = ({ children }) => {
+export const Layout = ({ children }) => {
   return <>{children}</>;
 };
 
-const _Route = ({ component: Component, ...rest }) => {
+export const _Route = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -16,9 +16,4 @@ const _Route = ({ component: Component, ...rest }) => {
       )}
     />
   );
-};
-
-export default {
-  Layout: Layout,
-  _Route: _Route,
 };

@@ -1,4 +1,4 @@
-import auth from "../services/authService";
+import auth from "../../../services/authService";
 
 const Logout = () => {
   auth.logout();

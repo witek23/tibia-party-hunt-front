@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Input from "./common/input";
-import Button from "./common/button";
-import auth from "../services/authService";
+import Input from "../../common/input";
+import Button from "../../common/button";
+import auth from "../../../services/authService";
 import Joi from "joi-browser";
 
 const initialValues = {
